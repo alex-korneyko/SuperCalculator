@@ -2,7 +2,7 @@ package ua.goit.gojava.controller;
 
 
 import ua.goit.gojava.model.SimpleCalculator;
-import ua.goit.gojava.view.Display;
+import ua.goit.gojava.view.ConsoleDisplay;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -15,7 +15,7 @@ public class Main {
 
         SimpleCalculator simpleCalculator = new SimpleCalculator(parser);
 
-        Display display = new Display(simpleCalculator);
+        ConsoleDisplay display = new ConsoleDisplay(simpleCalculator);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -28,6 +28,5 @@ public class Main {
             }
             parser.toIntOperands(a);
         }
-
     }
 }

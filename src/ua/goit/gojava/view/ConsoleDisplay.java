@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Display implements Observer {
+public class ConsoleDisplay implements Observer {
 
     List<ExpressionElement> elements = new ArrayList<>();
 
 
-    public Display(SimpleCalculator calculator){
+    public ConsoleDisplay(SimpleCalculator calculator){
         calculator.registerObserver(this);
         update(elements);
     }

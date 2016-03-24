@@ -5,7 +5,6 @@ import ua.goit.gojava.model.SimpleCalculator;
 import ua.goit.gojava.view.ConsoleDisplay;
 
 import java.util.Objects;
-import java.util.Scanner;
 
 public class Main {
 
@@ -17,16 +16,14 @@ public class Main {
 
         ConsoleDisplay display = new ConsoleDisplay(simpleCalculator);
 
-        Scanner scanner = new Scanner(System.in);
-
-        String a = "";
-
         while (true) {
-            a = scanner.next();
-            if (Objects.equals(a, "0")) {
+            String s = Input.keyboard();
+
+            if(Objects.equals(s, "0")){
                 break;
             }
-            parser.toIntOperands(a);
+
+            parser.toIntOperands(s);
         }
     }
 }

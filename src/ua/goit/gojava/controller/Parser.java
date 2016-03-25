@@ -11,35 +11,16 @@ import java.util.List;
 
 public class Parser implements Observable {
 
-    private List<Observer> observers;
+    private List<Observer> observers = new ArrayList<>();
 
     private List<ExpressionElement> expression = new ArrayList<>();
 
-    public Parser() {
-        observers = new ArrayList<>();
-    }
-
-    @Override
-    public void registerObserver(Observer observer) {
-
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-
-        for (Observer observer : observers) {
-
-            observer.update(expression);
-        }
-    }
-
+    /**
+     * Преобразование строки с выражением в набор "математических" объектов,
+     * который и будет служить для дальнейших приведений и расчётов
+     *
+     * @param stringExpression выражение в виде строки
+     */
     public void toIntOperands(String stringExpression) {
 
         expression = new ArrayList<>();
@@ -98,11 +79,34 @@ public class Parser implements Observable {
         number = number * (negativeNumber ? -1 : 1);
         expression.add(new ExpressionElement(ElementType.INT, number));
 
-        if (expression.size() == 3 && expression.get(0).elementType == ElementType.INT
-                && expression.get(2).elementType == ElementType.INT
-                && expression.get(1).elementType != ElementType.INT) {
+//        if (expression.size() == 3 && expression.get(0).elementType == ElementType.INT
+//                && expression.get(2).elementType == ElementType.INT
+//                && expression.get(1).elementType != ElementType.INT) {
+//
+//            notifyObservers();
+//        }
 
-            notifyObservers();
+        notifyObservers();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+
+        for (Observer observer : observers) {
+
+            observer.update(expression);
         }
     }
 }

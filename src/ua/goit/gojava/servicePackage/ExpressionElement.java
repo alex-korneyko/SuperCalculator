@@ -41,4 +41,16 @@ public class ExpressionElement {
                 return "";
         }
     }
+
+    @Override
+    public ExpressionElement clone(){
+
+        return new ExpressionElement(this.elementType, this.number);
+    }
+
+    public boolean equals(Object element){
+        return this.elementType == ((ExpressionElement)element).elementType;
+    }
+
+
 }

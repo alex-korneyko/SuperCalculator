@@ -15,7 +15,9 @@ public class Main {
 
         Parser parser = new Parser();
 
-        //SimpleCalculator simpleCalculator = new SimpleCalculator(parser);
+        //Создание объекта-декоратора, в котором расширяется функциональность SimpleCalculator
+        //с помощью класса MultiOperandCalculator,
+        //а потом то что получилось расширяется классом TrickyCalculator
         Decorator calculator = new TrickyCalculator(new MultiOperandCalculator(new SimpleCalculator()), parser);
 
         ConsoleDisplay display = new ConsoleDisplay(((TrickyCalculator) calculator));

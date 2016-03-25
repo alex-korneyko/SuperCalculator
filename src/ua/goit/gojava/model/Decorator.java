@@ -5,6 +5,9 @@ import ua.goit.gojava.servicePackage.ExpressionElement;
 
 import java.util.List;
 
+/**
+ * Класс-декоратор
+ */
 public abstract class Decorator implements DecoratorInterface {
 
     protected DecoratorInterface decoratorInterface;

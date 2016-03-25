@@ -10,6 +10,9 @@ import ua.goit.gojava.servicePackage.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, добавляющий функционал по расчёту выражений со скобками
+ */
 public class TrickyCalculator extends Decorator implements Observer, Observable {
 
     List<Observer> observers = new ArrayList<>();
@@ -25,6 +28,13 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
         parser.registerObserver(this);
     }
 
+    /**
+     * Метод, опускающий все скобки в выражении и передаёт его методу работающему
+     * с любым количеством операндов
+     *
+     * @param expression выражение для преобразования
+     * @return result of the expression
+     */
     @Override
     public int compute(List<ExpressionElement> expression) {
         //Опускание всех скобок в выражении

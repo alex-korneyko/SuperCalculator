@@ -9,7 +9,10 @@ import ua.goit.gojava.servicePackage.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Кдасс, расчитывающий выражение из двух операторов и простейших
+ * арифметических опреций
+ */
 public class SimpleCalculator implements Observer, Observable, DecoratorInterface {
 
     Parser parser;
@@ -28,6 +31,12 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
     //Конструктор, если не предусматривается наблюдение
     public SimpleCalculator(){}
 
+    /**
+     * Метод делающий только простые арифметические операции ('+', '-', '*', '/'
+     * с двумя операндами
+     * @param elements
+     * @return
+     */
     @Override
     public int compute(List<ExpressionElement> elements) {
         int operand1 = 0;

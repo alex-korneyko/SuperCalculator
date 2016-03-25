@@ -80,6 +80,12 @@ public class Parser implements Observable {
                             break;
                         case '/':
                             expression.add(new ExpressionElement(ElementType.DIVIDE));
+                            break;
+                        case '(':
+                            expression.add(new ExpressionElement(ElementType.OPEN_PARENTHESIS));
+                            break;
+                        case ')':
+                            expression.add(new ExpressionElement(ElementType.CLOSE_PARENTHESIS));
 
                     }
                 } else {

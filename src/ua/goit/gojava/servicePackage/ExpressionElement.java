@@ -33,9 +33,9 @@ public class ExpressionElement {
                 return "*";
             case EQUALLY:
                 return "=";
-            case OPEN_BRACKET:
+            case OPEN_PARENTHESIS:
                 return "(";
-            case CLOSE_BRACKET:
+            case CLOSE_PARENTHESIS:
                 return ")";
             default:
                 return "";

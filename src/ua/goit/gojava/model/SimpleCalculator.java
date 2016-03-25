@@ -10,29 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SimpleCalculator implements Observer, Observable {
+public class SimpleCalculator implements Observer, Observable, DecoratorInterface {
 
     Parser parser;
 
     List<Observer> observers = new ArrayList<>();
 
+    List<ExpressionElement> expressionElements = new ArrayList<>();
+
+    //Конструктор, если надо что-то брать под наблюдение
     public SimpleCalculator(Parser parser) {
         this.parser = parser;
+
         parser.registerObserver(this);
     }
 
-    List<ExpressionElement> expressionElements = new ArrayList<>();
+    //Конструктор, если не предусматривается наблюдение
+    public SimpleCalculator(){}
 
     @Override
-    public void update(List<ExpressionElement> elements) {
-        expressionElements = elements;
-        int result = compute(expressionElements);
-        expressionElements.add(new ExpressionElement(ElementType.EQUALLY));
-        expressionElements.add(new ExpressionElement(ElementType.INT, result));
-
-        notifyObservers();
-    }
-
     public int compute(List<ExpressionElement> elements) {
         int operand1 = 0;
         int operand2 = 0;
@@ -65,6 +61,26 @@ public class SimpleCalculator implements Observer, Observable {
         return result;
     }
 
+
+    //region Actions
+    @Override
+    public void update(List<ExpressionElement> expression) {
+        //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние
+        //и передаёт изменения, а наблюдатель (этот объект) должен что-то сделать
+
+        expressionElements = expression;
+
+        //производится расчёт простейшим калькулятором
+        int result = compute(expressionElements);
+
+        //дописывание результата в выражение
+        expressionElements.add(new ExpressionElement(ElementType.EQUALLY));
+        expressionElements.add(new ExpressionElement(ElementType.INT, result));
+
+        //сообщение всем наблюдателям о изменении состояния
+        notifyObservers();
+    }
+
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
@@ -77,8 +93,9 @@ public class SimpleCalculator implements Observer, Observable {
 
     @Override
     public void notifyObservers() {
-        for(Observer o: observers){
+        for (Observer o : observers) {
             o.update(expressionElements);
         }
     }
+    //endregion
 }

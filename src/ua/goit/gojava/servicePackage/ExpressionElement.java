@@ -16,6 +16,34 @@ public class ExpressionElement {
         this.number = number;
     }
 
+    public ElementType getSpecies() {
+        if (elementType == ElementType.PLUS || elementType == ElementType.MINUS
+                || elementType == ElementType.MULTIPLY || elementType == ElementType.DIVIDE) {
+            return ElementType.OPERATOR;
+        }
+
+        if (elementType == ElementType.OPEN_PARENTHESIS || elementType == ElementType.CLOSE_PARENTHESIS) {
+            return ElementType.PARENTHESIS;
+        }
+
+        return ElementType.INT;
+    }
+
+    public static ExpressionElement getExpressionElement(char symbol){
+        switch (symbol){
+            case '+':
+                return new ExpressionElement(ElementType.PLUS);
+            case '-':
+                return new ExpressionElement(ElementType.MINUS);
+            case '*':
+                return new ExpressionElement(ElementType.MULTIPLY);
+            case '/':
+                return new ExpressionElement(ElementType.DIVIDE);
+        }
+
+        throw new IllegalArgumentException("Incorrect operator");
+    }
+
     @Override
     public String toString() {
         if (elementType == ElementType.INT) {
@@ -43,13 +71,14 @@ public class ExpressionElement {
     }
 
     @Override
-    public ExpressionElement clone(){
+    public ExpressionElement clone() {
 
         return new ExpressionElement(this.elementType, this.number);
     }
 
-    public boolean equals(Object element){
-        return this.elementType == ((ExpressionElement)element).elementType;
+    public boolean equals(Object element) {
+        return this.elementType == ((ExpressionElement) element).elementType
+                && number == ((ExpressionElement) element).number;
     }
 
 

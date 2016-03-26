@@ -29,7 +29,7 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
     }
 
     /**
-     * Метод, опускающий все скобки в выражении и передаёт его методу работающему
+     * Метод, раскрывает все скобки в выражении и передаёт его методу работающему
      * с любым количеством операндов
      *
      * @param expression выражение для преобразования
@@ -37,12 +37,36 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
      */
     @Override
     public int compute(List<ExpressionElement> expression) {
-        //Опускание всех скобок в выражении
+        //Раскрытие всех скобок в выражении
+
+        List<ExpressionElement> simpleExpression = new ArrayList<>();
+
+        int dynamicExprSize = expression.size();
+        for (int i = 0; i < dynamicExprSize; i++) {
+            if (expression.get(i).elementType == ElementType.CLOSE_PARENTHESIS) {
+                for (int j = i - 1; j >= 0; j--) {
+                    if (expression.get(j).elementType != ElementType.OPEN_PARENTHESIS) {
+                        simpleExpression.add(0, expression.get(j));
+                    } else {
+                        final int simpleResult = super.compute(simpleExpression);
+                        expression.set(j, new ExpressionElement(ElementType.INT, simpleResult));
+                        for (int k = j + 1; k <= i; k++) {
+                            expression.remove(j + 1);
+                            --dynamicExprSize;
+                        }
+                        i = j;
+                        simpleExpression.clear();
+                        break;
+                    }
+                }
+            }
+        }
 
         //Передача управления декорируемому классу
         return super.compute(expression);
     }
 
+    //region Event precessing
     @Override
     public void update(List<ExpressionElement> expression) {
         //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние
@@ -53,10 +77,11 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
         //Расчёт
         int result = compute(expression);
 
-        //Добавление результата в выражение
+        //Добавление результата в выражение в виде мат-объектов
         expression.add(new ExpressionElement(ElementType.EQUALLY));
         expression.add(new ExpressionElement(ElementType.INT, result));
 
+        //Сообщение всем наблюдателям об изменении состояния выражения
         notifyObservers();
 
     }
@@ -77,4 +102,5 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
             observer.update(expression);
         }
     }
+    //endregion
 }

@@ -6,7 +6,9 @@ import ua.goit.gojava.servicePackage.Observable;
 import ua.goit.gojava.servicePackage.Observer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Parser implements Observable {
@@ -14,6 +16,7 @@ public class Parser implements Observable {
     private List<Observer> observers = new ArrayList<>();
 
     private List<ExpressionElement> expression = new ArrayList<>();
+
 
     /**
      * Преобразование строки с выражением в набор "математических" объектов,
@@ -24,71 +27,58 @@ public class Parser implements Observable {
     public void toIntOperands(String stringExpression) {
 
         expression = new ArrayList<>();
-        int number = 0;
+
+        char[] charExpression = stringExpression.toCharArray();
         boolean newNumber = true;
         boolean negativeNumber = false;
 
-        char[] chars = stringExpression.toCharArray();
-
-        for (char aChar : chars) {
-
-            if (((int) aChar) >= 48 && ((int) aChar) <= 57) {
-                number = number * 10 + (((int) aChar) - 48);
-                newNumber = false;
+        for (int i = 0; i < charExpression.length; i++) {
+            if (((int) charExpression[i]) >= 48 && ((int) charExpression[i]) <= 57) {
+                if (newNumber) {
+                    expression.add(new ExpressionElement(ElementType.INT, (charExpression[i] - 48)));
+                    newNumber = false;
+                } else {
+                    ExpressionElement tmp = expression.get(expression.size() - 1);
+                    tmp.number = tmp.number * 10 + charExpression[i] - 48;
+                }
                 continue;
             }
 
-            if (aChar == '+' || aChar == '-' || aChar == '*' || aChar == '/') {
-
+            if (charExpression[i] == '+' || charExpression[i] == '-'
+                    || charExpression[i] == '*' || charExpression[i] == '/') {
                 if (!newNumber) {
-                    number = number * (negativeNumber ? -1 : 1);
+                    ExpressionElement tmp = expression.get(expression.size() - 1);
+                    tmp.number = tmp.number * (negativeNumber ? -1 : 1);
                     negativeNumber = false;
-
-                    expression.add(new ExpressionElement(ElementType.INT, number));
-
-                    number = 0;
                     newNumber = true;
-
-                    switch (aChar) {
-                        case '+':
-                            expression.add(new ExpressionElement(ElementType.PLUS));
-                            break;
-                        case '-':
-                            expression.add(new ExpressionElement(ElementType.MINUS));
-                            break;
-                        case '*':
-                            expression.add(new ExpressionElement(ElementType.MULTIPLY));
-                            break;
-                        case '/':
-                            expression.add(new ExpressionElement(ElementType.DIVIDE));
-                            break;
-                        case '(':
-                            expression.add(new ExpressionElement(ElementType.OPEN_PARENTHESIS));
-                            break;
-                        case ')':
-                            expression.add(new ExpressionElement(ElementType.CLOSE_PARENTHESIS));
-
-                    }
+                    expression.add(ExpressionElement.getExpressionElement(charExpression[i]));
                 } else {
-                    if (aChar == '-') {
+                    if (charExpression[i] == '-') {
                         negativeNumber = true;
                     }
                 }
+                continue;
+            }
+
+            if (charExpression[i] == '(') {
+                expression.add(new ExpressionElement(ElementType.OPEN_PARENTHESIS));
+                newNumber = true;
+            }
+
+            if (charExpression[i] == ')') {
+                ExpressionElement tmp = expression.get(expression.size() - 1);
+                tmp.number = tmp.number * (negativeNumber ? -1 : 1);
+                negativeNumber = false;
+                //newNumber = true;
+                expression.add(new ExpressionElement(ElementType.CLOSE_PARENTHESIS));
             }
         }
-        number = number * (negativeNumber ? -1 : 1);
-        expression.add(new ExpressionElement(ElementType.INT, number));
 
-//        if (expression.size() == 3 && expression.get(0).elementType == ElementType.INT
-//                && expression.get(2).elementType == ElementType.INT
-//                && expression.get(1).elementType != ElementType.INT) {
-//
-//            notifyObservers();
-//        }
-
+        //Сообщение, что выражение составлено
         notifyObservers();
     }
 
+    //region Event processing
     @Override
     public void registerObserver(Observer observer) {
 
@@ -109,4 +99,5 @@ public class Parser implements Observable {
             observer.update(expression);
         }
     }
+    //endregion
 }

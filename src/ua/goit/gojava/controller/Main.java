@@ -20,7 +20,7 @@ public class Main {
         //а потом то что получилось расширяется классом TrickyCalculator
         Decorator calculator = new TrickyCalculator(new MultiOperandCalculator(new SimpleCalculator()), parser);
 
-        ConsoleDisplay display = new ConsoleDisplay(((TrickyCalculator) calculator));
+        new ConsoleDisplay((TrickyCalculator) calculator);
 
         while (true) {
             String s = Input.keyboard();

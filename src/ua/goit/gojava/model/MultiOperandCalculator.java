@@ -54,11 +54,17 @@ public class MultiOperandCalculator extends Decorator implements Observer, Obser
 
             for (int i = 3; i < expression.size(); i++) {
 
-                if (expression.get(i).elementType == ElementType.MULTIPLY ||
-                        expression.get(i).elementType == ElementType.DIVIDE) {
-                    simpleExpression = expression.subList(i - 1, i + 2);
-                    startIndexSimpleExp = i - 1;
-                    break;
+
+                if (simpleExpression.get(1).elementType == ElementType.PLUS ||
+                        simpleExpression.get(1).elementType == ElementType.MINUS) {
+
+                    if (expression.get(i).elementType == ElementType.MULTIPLY ||
+                            expression.get(i).elementType == ElementType.DIVIDE) {
+
+                        simpleExpression = expression.subList(i - 1, i + 2);
+                        startIndexSimpleExp = i - 1;
+                        break;
+                    }
                 }
             }
             int result = super.compute(simpleExpression);

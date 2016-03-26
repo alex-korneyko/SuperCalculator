@@ -32,27 +32,30 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
     public SimpleCalculator(){}
 
     /**
-     * Метод делающий только простые арифметические операции ('+', '-', '*', '/'
+     * Метод производящий только простые арифметические операции ('+', '-', '*', '/'
      * с двумя операндами
-     * @param elements
-     * @return
+     * @param expression  expression for calculate
+     * @return result of the expression
      */
     @Override
-    public int compute(List<ExpressionElement> elements) {
+    public int compute(List<ExpressionElement> expression) {
         int operand1 = 0;
         int operand2 = 0;
-
         int result = 0;
 
-        if (elements.get(0).elementType == ElementType.INT) {
-            operand1 = elements.get(0).number;
+        if(expression.size() == 1){
+            return expression.get(0).number;
         }
 
-        if (elements.get(2).elementType == ElementType.INT) {
-            operand2 = elements.get(2).number;
+        if (expression.get(0).elementType == ElementType.INT) {
+            operand1 = expression.get(0).number;
         }
 
-        switch (elements.get(1).elementType) {
+        if (expression.get(2).elementType == ElementType.INT) {
+            operand2 = expression.get(2).number;
+        }
+
+        switch (expression.get(1).elementType) {
             case PLUS:
                 result = operand1 + operand2;
                 break;
@@ -71,7 +74,7 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
     }
 
 
-    //region Actions
+    //region Event processing
     @Override
     public void update(List<ExpressionElement> expression) {
         //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние

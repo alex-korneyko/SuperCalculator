@@ -1,5 +1,6 @@
 package ua.goit.gojava.view;
 
+import ua.goit.gojava.controller.Parser;
 import ua.goit.gojava.model.TrickyCalculator;
 import ua.goit.gojava.servicePackage.ExpressionElement;
 import ua.goit.gojava.servicePackage.Observer;
@@ -13,8 +14,9 @@ public class ConsoleDisplay implements Observer {
     List<ExpressionElement> expression = new ArrayList<>();
 
 
-    public ConsoleDisplay(TrickyCalculator calculator){
+    public ConsoleDisplay(Parser parser, TrickyCalculator calculator) {
         calculator.registerObserver(this);                  //Регистрация у наблюдаемого
+        parser.registerObserver(this);
         update(expression);                                 //Вывод приглашения на экран сразу при создании объекта
     }
 
@@ -24,9 +26,15 @@ public class ConsoleDisplay implements Observer {
         //и передаёт изменения, а наблюдатель (этот объект) должен что-то сделать
 
         //Вывод на экран конечного выражения
-        for (ExpressionElement element: expression){
-            System.out.print(element + " ");
+        if(expression != null){
+            for(ExpressionElement element: expression){
+                System.out.print(element+" ");
+            }
         }
+
+        /*if (expression != null && expression.size() == 1) {
+            System.out.println("= " + expression.get(0));
+        }*/
         System.out.println();
 
         //Вывод на экран приглашения

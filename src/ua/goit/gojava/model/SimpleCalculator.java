@@ -80,14 +80,15 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
         //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние
         //и передаёт изменения, а наблюдатель (этот объект) должен что-то сделать
 
-        expressionElements = expression;
+        //expressionElements = expression;
 
         //производится расчёт простейшим калькулятором
-        int result = compute(expressionElements);
+        int result = compute(expression);
 
         //дописывание результата в выражение
-        expressionElements.add(new ExpressionElement(ElementType.EQUALLY));
-        expressionElements.add(new ExpressionElement(ElementType.INT, result));
+
+        expression.add(new ExpressionElement(ElementType.EQUALLY));
+        expression.add(new ExpressionElement(ElementType.INT, result));
 
         //сообщение всем наблюдателям о изменении состояния
         notifyObservers();

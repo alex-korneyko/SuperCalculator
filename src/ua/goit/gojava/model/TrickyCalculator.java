@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class TrickyCalculator extends Decorator implements Observer, Observable {
 
-    List<Observer> observers = new ArrayList<>();
+    List<Observer> observers = new ArrayList<>();       //Список наблюдателей
 
-    List<ExpressionElement> expression = new ArrayList<>();
+    List<ExpressionElement> expression = new ArrayList<>();     //Выражение с которым будет работать вся программа
 
     public TrickyCalculator(DecoratorInterface decoratorInterface, Parser parser) {
 
@@ -29,8 +29,8 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
     }
 
     /**
-     * Метод, раскрывает все скобки в выражении и передаёт его методу работающему
-     * с любым количеством операндов
+     * Метод, раскрывает все скобки в выражении и передаёт это выражение
+     *  методу, работающему с любым количеством операндов
      *
      * @param expression выражение для преобразования
      * @return result of the expression
@@ -78,6 +78,7 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
         int result = compute(expression);
 
         //Добавление результата в выражение в виде мат-объектов
+        expression.clear();
         expression.add(new ExpressionElement(ElementType.EQUALLY));
         expression.add(new ExpressionElement(ElementType.INT, result));
 

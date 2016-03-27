@@ -32,40 +32,40 @@ public class Parser implements Observable {
         boolean newNumber = true;
         boolean negativeNumber = false;
 
-        for (int i = 0; i < charExpression.length; i++) {
-            if (((int) charExpression[i]) >= 48 && ((int) charExpression[i]) <= 57) {
+        for (char symbol : charExpression) {
+            if (((int) symbol) >= 48 && ((int) symbol) <= 57) {
                 if (newNumber) {
-                    expression.add(new ExpressionElement(ElementType.INT, (charExpression[i] - 48)));
+                    expression.add(new ExpressionElement(ElementType.INT, (symbol - 48)));
                     newNumber = false;
                 } else {
                     ExpressionElement tmp = expression.get(expression.size() - 1);
-                    tmp.number = tmp.number * 10 + charExpression[i] - 48;
+                    tmp.number = tmp.number * 10 + symbol - 48;
                 }
                 continue;
             }
 
-            if (charExpression[i] == '+' || charExpression[i] == '-'
-                    || charExpression[i] == '*' || charExpression[i] == '/') {
+            if (symbol == '+' || symbol == '-'
+                    || symbol == '*' || symbol == '/') {
                 if (!newNumber) {
                     ExpressionElement tmp = expression.get(expression.size() - 1);
                     tmp.number = tmp.number * (negativeNumber ? -1 : 1);
                     negativeNumber = false;
                     newNumber = true;
-                    expression.add(ExpressionElement.getExpressionElement(charExpression[i]));
+                    expression.add(ExpressionElement.getExpressionElement(symbol));
                 } else {
-                    if (charExpression[i] == '-') {
+                    if (symbol == '-') {
                         negativeNumber = true;
                     }
                 }
                 continue;
             }
 
-            if (charExpression[i] == '(') {
+            if (symbol == '(') {
                 expression.add(new ExpressionElement(ElementType.OPEN_PARENTHESIS));
                 newNumber = true;
             }
 
-            if (charExpression[i] == ')') {
+            if (symbol == ')') {
                 ExpressionElement tmp = expression.get(expression.size() - 1);
                 tmp.number = tmp.number * (negativeNumber ? -1 : 1);
                 negativeNumber = false;

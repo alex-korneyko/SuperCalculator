@@ -15,8 +15,8 @@ public class ConsoleDisplay implements Observer {
 
 
     public ConsoleDisplay(Parser parser, TrickyCalculator calculator) {
-        calculator.registerObserver(this);                  //Регистрация у наблюдаемого
         parser.registerObserver(this);
+        calculator.registerObserver(this);                  //Регистрация у наблюдаемого
         update(expression);                                 //Вывод приглашения на экран сразу при создании объекта
     }
 
@@ -26,18 +26,17 @@ public class ConsoleDisplay implements Observer {
         //и передаёт изменения, а наблюдатель (этот объект) должен что-то сделать
 
         //Вывод на экран конечного выражения
-        if(expression != null){
-            for(ExpressionElement element: expression){
-                System.out.print(element+" ");
+        if (expression != null) {
+            for (ExpressionElement element : expression) {
+                System.out.print(element + " ");
             }
         }
 
-        /*if (expression != null && expression.size() == 1) {
-            System.out.println("= " + expression.get(0));
-        }*/
-        System.out.println();
 
-        //Вывод на экран приглашения
-        System.out.print("Enter expression ('0' for exit) --> ");
+        if (expression != null && expression.size() <= 2) {
+            System.out.println();
+            //Вывод на экран приглашения
+            System.out.print("Enter expression ('0' for exit) --> ");
+        }
     }
 }

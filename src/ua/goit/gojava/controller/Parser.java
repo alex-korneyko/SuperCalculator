@@ -6,9 +6,7 @@ import ua.goit.gojava.servicePackage.Observable;
 import ua.goit.gojava.servicePackage.Observer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Parser implements Observable {
@@ -94,9 +92,13 @@ public class Parser implements Observable {
     @Override
     public void notifyObservers() {
 
-        for (Observer observer : observers) {
-
-            observer.update(expression);
+        //сообщить наблюдателям что выражение готово, но в обратном порядке списка,
+        //т.к. надо сначала вывести распарсеное выражение (сообщение ConsoleDisplay)
+        //а потом результат (сообщение TrickyCalculator). Результат в конце расчётов окажется
+        //вместо выражения. (При заполнении списка наблюдателей, первым в него попадает TrickyCalculator,
+        //который всё выражение сократит до результата)
+        for(int i=observers.size()-1; i>=0; i--){
+            observers.get(i).update(expression);
         }
     }
     //endregion

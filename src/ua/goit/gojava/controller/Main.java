@@ -13,22 +13,30 @@ public class Main {
 
     public static void main(String[] args) {
 
+        //------------- Часть CONSOLE паттерна MVC -------------
+        //Объект - парсер. Преобразование строки в выражение для расчётов
         Parser parser = new Parser();
 
-        //Создание объекта-декоратора, в котором расширяется функциональность SimpleCalculator
+        //-------------- Часть MODEL паттерна MVC --------------
+        //Создание объекта-декоратора (паттерн DECORATOR), в котором расширяется функциональность SimpleCalculator
         //с помощью класса MultiOperandCalculator,
-        //а потом то что получилось расширяется классом TrickyCalculator
+        //а потом то что получилось расширяется классом TrickyCalculator.
+        //SimpleCalculator принимает в качестве аргумента объект,
+        //который он должен прослушивать - parser. (паттерн OBSERVER)
         Decorator calculator = new TrickyCalculator(new MultiOperandCalculator(new SimpleCalculator()), parser);
 
+        //--------------- Часть VIEW паттерна MVC ---------------
+        //Объект для вывода результатов на экран. Принимает аргументами объекты,
+        //которые должен "прослушивать", т.е. ловить от них события (паттерн OBSERVER)
         ConsoleDisplay consoleDisplay = new ConsoleDisplay(parser, (TrickyCalculator) calculator);
 
+        //Ввод с клавиатуры
         while (true) {
             String s = Input.keyboard();
 
             if(Objects.equals(s, "0")){
                 break;
             }
-
 
             try {
                 parser.toIntOperands(s);

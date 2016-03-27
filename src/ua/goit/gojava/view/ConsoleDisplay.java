@@ -15,11 +15,12 @@ public class ConsoleDisplay implements Observer {
 
 
     public ConsoleDisplay(Parser parser, TrickyCalculator calculator) {
-        parser.registerObserver(this);
+        parser.registerObserver(this);                      //Регистрация у наблюдаемого
         calculator.registerObserver(this);                  //Регистрация у наблюдаемого
         update(expression);                                 //Вывод приглашения на экран сразу при создании объекта
     }
 
+    //Метод, вызываемый обработчиком исключений
     public void printError(String msg){
         System.out.println(msg);
         System.out.print("Enter expression ('0' for exit) --> ");
@@ -27,7 +28,7 @@ public class ConsoleDisplay implements Observer {
 
     @Override
     public void update(List<ExpressionElement> expression) {
-        //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние
+        //Метод, вызываемый наблюдаемым объектом, чтобы ссобщить, что у него изменилось состояние
         //и передаёт изменения, а наблюдатель (этот объект) должен что-то сделать
 
         //Вывод на экран конечного выражения
@@ -36,7 +37,6 @@ public class ConsoleDisplay implements Observer {
                 System.out.print(element + " ");
             }
         }
-
 
         if (expression != null && expression.size() <= 2) {
             System.out.println();

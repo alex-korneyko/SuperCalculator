@@ -20,6 +20,11 @@ public class ConsoleDisplay implements Observer {
         update(expression);                                 //Вывод приглашения на экран сразу при создании объекта
     }
 
+    public void printError(String msg){
+        System.out.println(msg);
+        System.out.print("Enter expression ('0' for exit) --> ");
+    }
+
     @Override
     public void update(List<ExpressionElement> expression) {
         //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние

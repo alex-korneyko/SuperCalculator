@@ -20,7 +20,7 @@ public class Main {
         //а потом то что получилось расширяется классом TrickyCalculator
         Decorator calculator = new TrickyCalculator(new MultiOperandCalculator(new SimpleCalculator()), parser);
 
-        new ConsoleDisplay(parser, (TrickyCalculator) calculator);
+        ConsoleDisplay consoleDisplay = new ConsoleDisplay(parser, (TrickyCalculator) calculator);
 
         while (true) {
             String s = Input.keyboard();
@@ -29,7 +29,12 @@ public class Main {
                 break;
             }
 
-            parser.toIntOperands(s);
+
+            try {
+                parser.toIntOperands(s);
+            } catch (IllegalArgumentException e) {
+                consoleDisplay.printError(e.getMessage());
+            }
         }
     }
 }

@@ -43,6 +43,10 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
         int operand2 = 0;
         int result = 0;
 
+        if(expression.size()==0){
+            return 0;
+        }
+
         if(expression.size() == 1){
             return expression.get(0).number;
         }

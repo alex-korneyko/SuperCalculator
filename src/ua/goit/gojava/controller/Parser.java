@@ -8,13 +8,18 @@ import ua.goit.gojava.servicePackage.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Класс преобразования строковых выражений в набор объектов,
+ * используемых для дальнейших расчётов
+ */
 public class Parser implements Observable {
 
+    //Список наблюдателей. Им будет разослано "сообщение", что Parser что-то сделал.
+    //В этот список наблюдатели заносят сами себя из своих контекстов
     private List<Observer> observers = new ArrayList<>();
 
+    //Сформированное выражение
     private List<ExpressionElement> expression = new ArrayList<>();
-
 
     /**
      * Преобразование строки с выражением в набор "математических" объектов,
@@ -22,15 +27,17 @@ public class Parser implements Observable {
      *
      * @param stringExpression выражение в виде строки
      */
-    public void toIntOperands(String stringExpression) {
+    public void toIntOperands(String stringExpression) throws IllegalArgumentException {
 
         expression = new ArrayList<>();
 
         char[] charExpression = stringExpression.toCharArray();
-        boolean newNumber = true;
-        boolean negativeNumber = false;
+        boolean newNumber = true;               //флаг начала формирования очередного числа
+        boolean negativeNumber = false;         //флаг отрицательного числа
 
         for (char symbol : charExpression) {
+
+            //формирование чисел
             if (((int) symbol) >= 48 && ((int) symbol) <= 57) {
                 if (newNumber) {
                     expression.add(new ExpressionElement(ElementType.INT, (symbol - 48)));
@@ -42,6 +49,7 @@ public class Parser implements Observable {
                 continue;
             }
 
+            //определение мат. операций
             if (symbol == '+' || symbol == '-'
                     || symbol == '*' || symbol == '/') {
                 if (!newNumber) {
@@ -58,18 +66,22 @@ public class Parser implements Observable {
                 continue;
             }
 
+            //определение скобок
             if (symbol == '(') {
                 expression.add(new ExpressionElement(ElementType.OPEN_PARENTHESIS));
                 newNumber = true;
+                continue;
             }
 
             if (symbol == ')') {
                 ExpressionElement tmp = expression.get(expression.size() - 1);
                 tmp.number = tmp.number * (negativeNumber ? -1 : 1);
                 negativeNumber = false;
-                //newNumber = true;
                 expression.add(new ExpressionElement(ElementType.CLOSE_PARENTHESIS));
+                continue;
             }
+
+            throw new IllegalArgumentException("Unknown symbol: " + symbol);
         }
 
         //Сообщение, что выражение составлено
@@ -92,12 +104,14 @@ public class Parser implements Observable {
     @Override
     public void notifyObservers() {
 
-        //сообщить наблюдателям что выражение готово, но в обратном порядке списка,
+        //В списке должно быть два наблюдателя: TrickyCalculator и ConsoleDisplay.
+        //Сообщить наблюдателям что выражение готово, но в обратном порядке списка,
         //т.к. надо сначала вывести распарсеное выражение (сообщение ConsoleDisplay)
         //а потом результат (сообщение TrickyCalculator). Результат в конце расчётов окажется
         //вместо выражения. (При заполнении списка наблюдателей, первым в него попадает TrickyCalculator,
         //который всё выражение сократит до результата)
-        for(int i=observers.size()-1; i>=0; i--){
+
+        for (int i = observers.size() - 1; i >= 0; i--) {
             observers.get(i).update(expression);
         }
     }

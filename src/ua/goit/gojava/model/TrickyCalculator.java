@@ -30,13 +30,13 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
 
     /**
      * Метод, раскрывает все скобки в выражении и передаёт это выражение
-     *  методу, работающему с любым количеством операндов
+     * методу, работающему с любым количеством операндов
      *
      * @param expression выражение для преобразования
      * @return result of the expression
      */
     @Override
-    public int compute(List<ExpressionElement> expression) {
+    public int compute(List<ExpressionElement> expression) throws IllegalArgumentException {
         //Раскрытие всех скобок в выражении
 
         List<ExpressionElement> simpleExpression = new ArrayList<>();
@@ -46,6 +46,10 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
             if (expression.get(i).elementType == ElementType.CLOSE_PARENTHESIS) {
                 for (int j = i - 1; j >= 0; j--) {
                     if (expression.get(j).elementType != ElementType.OPEN_PARENTHESIS) {
+                        if (j == 0) {
+                            expression.clear();
+                            throw new IllegalArgumentException("<-- To many closing parentheses!");
+                        }
                         simpleExpression.add(0, expression.get(j));
                     } else {
                         final int simpleResult = super.compute(simpleExpression);
@@ -60,6 +64,11 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
                     }
                 }
             }
+        }
+
+        if (expression.contains(new ExpressionElement(ElementType.OPEN_PARENTHESIS))) {
+            expression.clear();
+            throw new IllegalArgumentException("<-- To many opening parentheses!");
         }
 
         //Передача управления декорируемому классу

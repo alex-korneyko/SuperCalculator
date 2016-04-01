@@ -13,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //------------- Часть CONSOLE паттерна MVC -------------
+        //------------ Часть CONTROLLER паттерна MVC -----------
         //Объект - парсер. Преобразование строки в выражение для расчётов
         Parser parser = new Parser();
 

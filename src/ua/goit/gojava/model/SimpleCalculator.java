@@ -6,6 +6,7 @@ import ua.goit.gojava.servicePackage.ExpressionElement;
 import ua.goit.gojava.servicePackage.Observable;
 import ua.goit.gojava.servicePackage.Observer;
 
+import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +44,12 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
         int operand2 = 0;
         int result = 0;
 
-        if(expression.size()==0){
+
+        if(expression == null || expression.size()==0){
             return 0;
         }
 
-        if(expression.size() == 1){
+        if(expression.size() <= 2){
             return expression.get(0).number;
         }
 

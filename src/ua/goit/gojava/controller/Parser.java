@@ -29,7 +29,7 @@ public class Parser implements Observable {
      */
     public void toIntOperands(String stringExpression) throws IllegalArgumentException {
 
-        expression = new ArrayList<>();
+        expression = new ArrayList<>();         //Выражение в виде набора мат-объектов
 
         char[] charExpression = stringExpression.toCharArray();
         boolean newNumber = true;               //флаг начала формирования очередного числа

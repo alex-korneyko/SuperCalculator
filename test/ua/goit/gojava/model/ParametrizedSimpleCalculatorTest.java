@@ -13,6 +13,10 @@ import ua.goit.gojava.servicePackage.ExpressionElement;
 import static org.junit.Assert.*;
 import static ua.goit.gojava.servicePackage.ElementType.*;
 
+/**
+ * Тест для проверки работы класса SimpleCalculator
+ *
+ */
 @RunWith(value = Parameterized.class)
 public class ParametrizedSimpleCalculatorTest {
 

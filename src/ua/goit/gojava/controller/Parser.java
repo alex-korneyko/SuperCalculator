@@ -84,6 +84,12 @@ public class Parser implements Observable {
             throw new IllegalArgumentException("Unknown symbol: " + symbol);
         }
 
+        if((expression.size()>0
+                && (expression.get(expression.size()-1)).elementType == ElementType.INT
+                && negativeNumber)){
+            expression.set(expression.size()-1,new ExpressionElement(ElementType.INT, (expression.get(expression.size()-1)).number * (-1)));
+        }
+
         //Сообщение, что выражение составлено
         notifyObservers();
 

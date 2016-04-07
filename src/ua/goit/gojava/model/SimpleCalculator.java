@@ -84,7 +84,11 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
                 result = operand1 * operand2;
                 break;
             case DIVIDE:
-                result = operand1 / operand2;
+                if (operand2 != 0) {
+                    result = operand1 / operand2;
+                } else {
+                    throw new IllegalArgumentException("Error. Division by zero");
+                }
                 break;
         }
 

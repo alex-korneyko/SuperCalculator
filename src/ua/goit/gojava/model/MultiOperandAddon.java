@@ -13,21 +13,21 @@ import java.util.List;
  * Класс, добавляющий функционал по расчёту выражений с числом
  * операндов больше чем два
  */
-public class MultiOperandCalculator extends Decorator implements Observer, Observable {
+public class MultiOperandAddon extends Decorator implements Observer, Observable {
 
     List<Observer> observers = new ArrayList<>();
 
     List<ExpressionElement> expression = new ArrayList<>();
 
     //Конструктор, если не предусматривается наблюдение
-    public MultiOperandCalculator(DecoratorInterface decoratorInterface) {
+    public MultiOperandAddon(DecoratorInterface decoratorInterface) {
 
         //Вызов конструктора декорируемого класса
         super(decoratorInterface);
     }
 
     //Конструктор, если надо кого-то наблюдать
-    public MultiOperandCalculator(DecoratorInterface decoratorInterface, Parser parser) {
+    public MultiOperandAddon(DecoratorInterface decoratorInterface, Parser parser) {
 
         //Вызов конструктора декорируемого класса
         this(decoratorInterface);
@@ -92,7 +92,7 @@ public class MultiOperandCalculator extends Decorator implements Observer, Obser
             //Передача простого выражения в декорируемый класс, который работает только с двумя операндами
             int result = super.compute(simpleExpression);
 
-            //Замена простого выражения в главном выражении результатм вычисления этого простого выражения
+            //Замена простого выражения в главном выражении результатом вычисления этого простого выражения
             expression.set(startIndexSimpleExp, new ExpressionElement(ElementType.INT, result));
             expression.remove(startIndexSimpleExp + 1);
             expression.remove(startIndexSimpleExp + 1);

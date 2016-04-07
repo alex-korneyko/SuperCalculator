@@ -27,7 +27,7 @@ public class Parser implements Observable {
      *
      * @param stringExpression выражение в виде строки
      */
-    public void toIntOperands(String stringExpression) throws IllegalArgumentException {
+    public List<ExpressionElement> toIntOperands(String stringExpression) throws IllegalArgumentException {
 
         expression = new ArrayList<>();         //Выражение в виде набора мат-объектов
 
@@ -86,6 +86,8 @@ public class Parser implements Observable {
 
         //Сообщение, что выражение составлено
         notifyObservers();
+
+        return expression;
     }
 
     //region Event processing
@@ -104,11 +106,11 @@ public class Parser implements Observable {
     @Override
     public void notifyObservers() {
 
-        //В списке должно быть два наблюдателя: TrickyCalculator и ConsoleDisplay.
+        //В списке должно быть два наблюдателя: ParenthesesAddon и ConsoleDisplay.
         //Сообщить наблюдателям что выражение готово, но в обратном порядке списка,
         //т.к. надо сначала вывести распарсеное выражение (сообщение ConsoleDisplay)
-        //а потом результат (сообщение TrickyCalculator). Результат в конце расчётов окажется
-        //вместо выражения. (При заполнении списка наблюдателей, первым в него попадает TrickyCalculator,
+        //а потом результат (сообщение ParenthesesAddon). Результат в конце расчётов окажется
+        //вместо выражения. (При заполнении списка наблюдателей, первым в него попадает ParenthesesAddon,
         //который всё выражение сократит до результата)
 
         for (int i = observers.size() - 1; i >= 0; i--) {

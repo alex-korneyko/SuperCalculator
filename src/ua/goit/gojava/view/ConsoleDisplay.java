@@ -1,7 +1,7 @@
 package ua.goit.gojava.view;
 
 import ua.goit.gojava.controller.Parser;
-import ua.goit.gojava.model.TrickyCalculator;
+import ua.goit.gojava.model.ParenthesesAddon;
 import ua.goit.gojava.servicePackage.ExpressionElement;
 import ua.goit.gojava.servicePackage.Observer;
 
@@ -14,14 +14,14 @@ public class ConsoleDisplay implements Observer {
     List<ExpressionElement> expression = new ArrayList<>();
 
 
-    public ConsoleDisplay(Parser parser, TrickyCalculator calculator) {
+    public ConsoleDisplay(Parser parser, ParenthesesAddon calculator) {
         parser.registerObserver(this);                      //Регистрация у наблюдаемого
         calculator.registerObserver(this);                  //Регистрация у наблюдаемого
         update(expression);                                 //Вывод приглашения на экран сразу при создании объекта
     }
 
     //Метод, вызываемый обработчиком исключений
-    public void printError(String msg){
+    public void printError(String msg) {
         System.out.println(msg);
         System.out.print("Enter expression ('0' for exit) --> ");
     }

@@ -6,7 +6,6 @@ import ua.goit.gojava.servicePackage.ExpressionElement;
 import ua.goit.gojava.servicePackage.Observable;
 import ua.goit.gojava.servicePackage.Observer;
 
-import java.beans.Expression;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +29,14 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
     }
 
     //Конструктор, если не предусматривается наблюдение
-    public SimpleCalculator(){}
+    public SimpleCalculator() {
+    }
 
     /**
      * Метод производящий только простые арифметические операции ('+', '-', '*', '/'
      * с двумя операндами
-     * @param expression  expression for calculate
+     *
+     * @param expression expression for calculate
      * @return result of the expression
      */
     @Override
@@ -45,12 +46,23 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
         int result = 0;
 
 
-        if(expression == null || expression.size()==0){
+        if (expression == null || expression.size() == 0) {
             return 0;
         }
 
-        if(expression.size() <= 2){
+        if (expression.size() == 1) {
             return expression.get(0).number;
+        }
+
+        if (expression.size() == 2) {
+
+            if (expression.get(0).elementType == ElementType.INT) {
+                return expression.get(0).number;
+            } else if (expression.get(0).elementType == ElementType.MINUS) {
+                return expression.get(1).number * (-1);
+            } else {
+                return expression.get(1).number;
+            }
         }
 
         if (expression.get(0).elementType == ElementType.INT) {

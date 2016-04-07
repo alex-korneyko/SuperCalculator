@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Класс, добавляющий функционал по расчёту выражений со скобками
  */
-public class TrickyCalculator extends Decorator implements Observer, Observable {
+public class ParenthesesAddon extends Decorator implements Observer, Observable {
 
     List<Observer> observers = new ArrayList<>();       //Список наблюдателей
 
     List<ExpressionElement> expression = new ArrayList<>();     //Выражение с которым будет работать вся программа
 
-    public TrickyCalculator(DecoratorInterface decoratorInterface, Parser parser) {
+    public ParenthesesAddon(DecoratorInterface decoratorInterface, Parser parser) {
 
         //Вызов конструктора декорируемого класса
         super(decoratorInterface);
@@ -107,7 +107,7 @@ public class TrickyCalculator extends Decorator implements Observer, Observable 
         return super.compute(expression);
     }
 
-    //region Event precessing
+    //region Event processing
     @Override
     public void update(List<ExpressionElement> expression) {
         //Метод, вызываемый наблюдаемым, чтобы ссобщить, что у него изменилось состояние

@@ -1,17 +1,21 @@
 package ua.goit.gojava.servicePackage;
 
 
+import java.math.BigInteger;
+
 public class ExpressionElement {
 
     public ElementType elementType;
 
-    public int number;
+    public double number = 0;
+
+    private int floatDigits = 0;
 
     public ExpressionElement(ElementType elementType) {
         this.elementType = elementType;
     }
 
-    public ExpressionElement(ElementType elementType, int number) {
+    public ExpressionElement(ElementType elementType, double number) {
         this(elementType);
         this.number = number;
     }
@@ -26,11 +30,23 @@ public class ExpressionElement {
             return ElementType.PARENTHESIS;
         }
 
-        return ElementType.INT;
+        return ElementType.NUMBER;
     }
 
-    public static ExpressionElement getExpressionElement(char symbol){
-        switch (symbol){
+    public void addDigitToIntPart(int digit) {
+        number = number * 10 + digit;
+    }
+
+    public void addDigitToFloatPart(int digit) {
+        floatDigits++;
+        double floatPart = digit * Math.pow(10, (floatDigits * (-1)));
+        number += floatPart;
+        double rounded = Math.round(number * Math.pow(10, floatDigits));
+        number = rounded * (Math.pow(10, (floatDigits * (-1))));
+    }
+
+    public static ExpressionElement getExpressionElement(char symbol) {
+        switch (symbol) {
             case '+':
                 return new ExpressionElement(ElementType.PLUS);
             case '-':

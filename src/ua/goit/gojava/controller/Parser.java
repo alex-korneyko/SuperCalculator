@@ -34,34 +34,44 @@ public class Parser implements Observable {
         char[] charExpression = stringExpression.toCharArray();
         boolean newNumber = true;               //флаг начала формирования очередного числа
         boolean negativeNumber = false;         //флаг отрицательного числа
+        boolean dot = false;                    //Флаг десятичной точки
 
         for (char symbol : charExpression) {
 
             //формирование чисел
-            if (((int) symbol) >= 48 && ((int) symbol) <= 57) {
+            if (symbol >= 48 && symbol <= 57) {
                 if (newNumber) {
                     expression.add(new ExpressionElement(ElementType.INT, (symbol - 48)));
                     newNumber = false;
                 } else {
-                    ExpressionElement tmp = expression.get(expression.size() - 1);
-                    tmp.number = tmp.number * 10 + symbol - 48;
+                    if (dot) {
+                        expression.get(expression.size() - 1).addDigitToFloatPart(symbol - 48);
+                    } else {
+                        expression.get(expression.size() - 1).addDigitToIntPart(symbol - 48);
+                    }
                 }
+                continue;
+            }
+            //Найдена десятичная точка
+            if(symbol == '.' || symbol == ','){
+                dot = true;
                 continue;
             }
 
             //определение мат. операций
             if (symbol == '+' || symbol == '-'
                     || symbol == '*' || symbol == '/') {
-                if (!newNumber) {
+                if (newNumber) {
+                    if (symbol == '-') {
+                        negativeNumber = true;
+                    }
+                } else {
                     ExpressionElement tmp = expression.get(expression.size() - 1);
                     tmp.number = tmp.number * (negativeNumber ? -1 : 1);
                     negativeNumber = false;
                     newNumber = true;
+                    dot = false;
                     expression.add(ExpressionElement.getExpressionElement(symbol));
-                } else {
-                    if (symbol == '-') {
-                        negativeNumber = true;
-                    }
                 }
                 continue;
             }
@@ -84,10 +94,10 @@ public class Parser implements Observable {
             throw new IllegalArgumentException("Unknown symbol: " + symbol);
         }
 
-        if((expression.size()>0
-                && (expression.get(expression.size()-1)).elementType == ElementType.INT
-                && negativeNumber)){
-            expression.set(expression.size()-1,new ExpressionElement(ElementType.INT, (expression.get(expression.size()-1)).number * (-1)));
+        if ((expression.size() > 0
+                && (expression.get(expression.size() - 1)).elementType == ElementType.INT
+                && negativeNumber)) {
+            expression.set(expression.size() - 1, new ExpressionElement(ElementType.INT, (expression.get(expression.size() - 1)).number * (-1)));
         }
 
         //Сообщение, что выражение составлено

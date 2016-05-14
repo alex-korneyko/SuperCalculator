@@ -17,7 +17,7 @@ public abstract class Decorator implements DecoratorInterface {
     }
 
     @Override
-    public int compute(List<ExpressionElement> expression) {
+    public double compute(List<ExpressionElement> expression) {
 
         return decoratorInterface.compute(expression);
     }

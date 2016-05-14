@@ -57,7 +57,7 @@ public class MultiOperandAddon extends Decorator implements Observer, Observable
      * @return result of the expression
      */
     @Override
-    public int compute(List<ExpressionElement> expression) {
+    public double compute(List<ExpressionElement> expression) {
 
         //Простое выражение из двух операндов
         List<ExpressionElement> simpleExpression;
@@ -90,7 +90,7 @@ public class MultiOperandAddon extends Decorator implements Observer, Observable
                 }
             }
             //Передача простого выражения в декорируемый класс, который работает только с двумя операндами
-            int result = super.compute(simpleExpression);
+            double result = super.compute(simpleExpression);
 
             //Замена простого выражения в главном выражении результатом вычисления этого простого выражения
             expression.set(startIndexSimpleExp, new ExpressionElement(ElementType.INT, result));
@@ -129,7 +129,7 @@ public class MultiOperandAddon extends Decorator implements Observer, Observable
         this.expression = expression;
 
         //Производится расчёт выражения с множеством операндов, но без скобок
-        int result = compute(expression);
+        double result = compute(expression);
 
         //дописывание результата в выражение
         expression.add(new ExpressionElement(ElementType.EQUALLY));

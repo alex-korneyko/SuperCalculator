@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DecoratorInterface {
 
-    int compute(List<ExpressionElement> expression);
+    double compute(List<ExpressionElement> expression);
 }

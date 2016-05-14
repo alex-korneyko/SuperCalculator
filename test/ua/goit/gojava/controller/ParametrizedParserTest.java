@@ -42,6 +42,14 @@ public class ParametrizedParserTest {
                     add(new ExpressionElement(INT, 12582));
                 }}},
 
+                {"12582.123", new ArrayList<ExpressionElement>() {{
+                    add(new ExpressionElement(INT, 12582.123));
+                }}},
+
+                {"12582.0123", new ArrayList<ExpressionElement>() {{
+                    add(new ExpressionElement(INT, 12582.0123));
+                }}},
+
                 //Тест на игнорирование мат-операций без чисел
                 {"+-*/", new ArrayList<ExpressionElement>()},
 

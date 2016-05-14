@@ -40,10 +40,10 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
      * @return result of the expression
      */
     @Override
-    public int compute(List<ExpressionElement> expression) {
-        int operand1 = 0;
-        int operand2 = 0;
-        int result = 0;
+    public double compute(List<ExpressionElement> expression) {
+        double operand1 = 0;
+        double operand2 = 0;
+        double result = 0;
 
 
         if (expression == null || expression.size() == 0) {
@@ -105,7 +105,7 @@ public class SimpleCalculator implements Observer, Observable, DecoratorInterfac
         //expressionElements = expression;
 
         //производится расчёт простейшим калькулятором
-        int result = compute(expression);
+        double result = compute(expression);
 
         //дописывание результата в выражение
 
